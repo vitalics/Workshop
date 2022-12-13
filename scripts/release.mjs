@@ -59,7 +59,6 @@ const commitMsg = `${'Release ' + version.trim() + '\n\n' + msg}`;
 await $`git add .`;
 await $`git commit -m ${commitMsg}`;
 
-await $`pnpm changeset tag`;
 
 // create git tag without pushing
 await $`git tag -a ${version.trim()} -m ${commitMsg}`;
