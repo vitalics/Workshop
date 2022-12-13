@@ -1,6 +1,6 @@
 {
   "name": "at-workshop",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Monorepo for automation",
   "main": "index.js",
   "private": true,
