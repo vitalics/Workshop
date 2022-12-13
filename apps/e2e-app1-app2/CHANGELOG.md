@@ -1,5 +1,14 @@
 # @apps/e2e-app1-app2
 
+## 1.0.4
+
+### Patch Changes
+
+-
+- Updated dependencies
+  - @apps/app1@1.0.4
+  - @utils/async@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes
