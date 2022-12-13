@@ -44,7 +44,6 @@ await fs.writeFile(filename.trim(), template(type, msg)); // write changeset
 await $`pnpm changeset version`; // add changeset
 
 await $`pnpm install`; // install and resolve packages
-await $`pnpm add create-coxa-app -w`; // update workspace package
 
 const { stdout: version } = await $`pnpm version ${type} --no-git-tag-version`;
 
