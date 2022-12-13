@@ -1,0 +1,75 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: Release.
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+        description: "version type, can be 'patch', 'minor', 'major'"
+        required: true
+        default: patch
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    name: "Build and publish to npm"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7.18.1
+          run_install: |
+            - args: []
+      - run: pnpm build
+      - name: Setup git config
+        run: |
+          git config --global user.name "github-actions[bot]" &&
+          git config --global user.email "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          echo "GIT_USER=${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+      - name: Get upcoming changes
+        run: |
+          RELEASE_LOG=$(< ./upcoming.md)
+      - run: pnpm release --type ${{ github.event.inputs.release_type || 'patch' }}
+      - name: Get release log from changelog
+        run: |
+          TAG=`git describe --tags --abbrev=0`
+          echo "workaround described here: https://trstringer.com/github-actions-multiline-strings/"
+          echo "RELEASE_LOG<<EOF" >> $GITHUB_ENV
+          echo "$RELEASE_LOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      - uses: fregante/release-with-changelog@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-template: "- {title} ← {hash}"
+          template: |
+            ### Changelog
+
+            ${{ env.RELEASE_LOG }}
+
+            ### PRs
+
+            {commits}
+
+            Full changelog: {range}
+
+            made with ❤ from Vitali Haradkou
+      # publish to npm each package in separate npm.js
+      # - name: Publish to npm
+      #   run: |
+      #     echo '//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}' > .npmrc
+      #     cat .npmrc
+      #     npm publish --access public -ws --scope=@tlgr
