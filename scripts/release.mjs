@@ -13,15 +13,9 @@ function assertType(type) {
 
 const template = (type, msg) => `
 ---
-"@apps/e2e": ${type}
-"@apps/unifi": ${type}
-"@coxa/allure": ${type}
-"@coxa/env": ${type}
-"@coxa/logger": ${type}
-"@coxa/secrets": ${type}
-"@coxa/types": ${type}
-"@coxa/utils": ${type}
-"create-coxa-app": ${type}
+"@apps/app1": ${type}
+"@apps/e2e-app1-app2": ${type}
+"@utils/async": ${type}
 ---
 
 ${msg}
