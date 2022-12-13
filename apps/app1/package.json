@@ -1,0 +1,15 @@
+{
+  "name": "@apps/app1",
+  "version": "1.0.0",
+  "description": "Automation for application 1",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "1.28.1"
+  }
+}

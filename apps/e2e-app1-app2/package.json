@@ -1,0 +1,19 @@
+{
+  "name": "@apps/e2e-app1-app2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "1.28.1"
+  },
+  "dependencies": {
+    "@apps/app1": "workspace:*",
+    "@utils/async": "workspace:*"
+  }
+}
