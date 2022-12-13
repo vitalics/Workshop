@@ -1,6 +1,6 @@
 {
   "name": "@apps/app1",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Automation for application 1",
   "main": "build/index.js",
   "scripts": {
